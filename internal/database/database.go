@@ -9,28 +9,29 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file" // required for file:// protocol
+	"github.com/spf13/viper"
 )
 
 var DB *sql.DB
 
-const (
-	host     = "192.168.110.75"
-	port     = 5432
-	user     = "pharos"
-	password = "123456"
-	dbName   = "pharos_dev"
-)
+func getDatabaseUrl() string {
+	databaseUrl := fmt.Sprintf(
+		"postgres://%s:%s@%s:%d/%s?sslmode=disable",
+		viper.GetString("DB_USER"),
+		viper.GetString("DB_PASSWORD"),
+		viper.GetString("DB_HOST"),
+		viper.GetInt("DB_PORT"),
+		viper.GetString("DB_NAME"),
+	)
+	return databaseUrl
+}
 
 func MigrateUp() {
 	dir, err := os.Getwd()
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Println(dir)
-	m, err := migrate.New(
-		fmt.Sprintf("file://%s/config/migrations", dir),
-		fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=disable", user, password, host, port, dbName),
-	)
+	m, err := migrate.New(fmt.Sprintf("file://%s/config/migrations", dir), getDatabaseUrl())
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -45,10 +46,7 @@ func MigrateDown() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	m, err := migrate.New(
-		fmt.Sprintf("file://%s/config/migrations", dir),
-		fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=disable", user, password, host, port, dbName),
-	)
+	m, err := migrate.New(fmt.Sprintf("file://%s/config/migrations", dir), getDatabaseUrl())
 	if err != nil {
 		log.Fatalln(err)
 	}
