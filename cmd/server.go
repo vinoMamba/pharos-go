@@ -1,9 +1,10 @@
 package cmd
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/spf13/cobra"
+	"github.com/vinoMamba/pharos-go/internal/router"
 )
 
 func init() {
@@ -11,8 +12,10 @@ func init() {
 		Use:   "server",
 		Short: "Start the Pharos server",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("Starting Pharos server...")
-			fmt.Println(args)
+			r := router.New()
+			if err := r.Run(":3000"); err != nil {
+				log.Println(err)
+			}
 		},
 	}
 	rootCmd.AddCommand(serverCmd)
