@@ -13,7 +13,7 @@ func init() {
 		Short: "Start the Pharos server",
 		Run: func(cmd *cobra.Command, args []string) {
 			r := router.New()
-			if err := r.Run(":3000"); err != nil {
+			if err := r.Run(":8080"); err != nil {
 				log.Println(err)
 			}
 		},

@@ -11,6 +11,9 @@ func New() *gin.Engine {
 		gin.Recovery(),
 		gin.Logger(),
 	)
-	r.GET("/api/v1/ping", controller.Ping)
+	group := r.Group("/api/v1")
+	{
+		group.POST("/login/dingtalk", controller.Login)
+	}
 	return r
 }
