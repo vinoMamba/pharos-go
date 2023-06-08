@@ -14,6 +14,7 @@ func New() *gin.Engine {
 	group := r.Group("/api/v1")
 	{
 		group.POST("/login/dingtalk", controller.Login)
+		group.POST("/validation_codes", controller.CreateValidationCode)
 	}
 	return r
 }
