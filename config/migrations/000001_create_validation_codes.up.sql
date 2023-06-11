@@ -1,0 +1,9 @@
+-- 创建validation_codes表
+CREATE TABLE  validation_codes(
+  id SERIAL PRIMARY KEY,
+  code VARCHAR(20) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  use_at TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+)
