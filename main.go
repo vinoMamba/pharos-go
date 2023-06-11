@@ -1,18 +1,11 @@
 package main
 
 import (
-	"github.com/spf13/viper"
 	"github.com/vinoMamba/pharos-go/cmd"
-	"log"
+	"github.com/vinoMamba/pharos-go/config"
 )
 
 func main() {
-	viper.SetConfigName(".env")
-	viper.SetConfigType("env")
-	viper.AddConfigPath(".")
-	err := viper.ReadInConfig()
-	if err != nil {
-		log.Fatalln(err)
-	}
+	config.LoadAppConfig()
 	cmd.Execute()
 }

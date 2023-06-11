@@ -2,10 +2,12 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/vinoMamba/pharos-go/config"
 	"github.com/vinoMamba/pharos-go/internal/controller"
 )
 
 func New() *gin.Engine {
+	config.LoadAppConfig()
 	r := gin.New()
 	r.Use(
 		gin.Recovery(),

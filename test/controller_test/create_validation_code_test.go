@@ -13,7 +13,7 @@ import (
 func TestCreateValidationCode(t *testing.T) {
 	r := router.New()
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("POST", "/api/v1/validation_codes", strings.NewReader(`{"email":"test@qq.com"}`)) // 将字符串转换为 io.Reader
+	req, _ := http.NewRequest("POST", "/api/v1/validation_codes", strings.NewReader(`{"email":"1@qq.com"}`)) // 将字符串转换为 io.Reader
 	req.Header.Set("Content-Type", "application/json")
 
 	r.ServeHTTP(w, req)
