@@ -2,7 +2,7 @@ package helper
 
 import "crypto/rand"
 
-func GernerateDigites(len int) string {
+func GernerateDigits(len int) string {
 	b := make([]byte, len)
 	_, err := rand.Read(b)
 	if err != nil {

@@ -19,6 +19,7 @@ func New() *gin.Engine {
 	{
 		group.POST("/login/dingtalk", controller.Login)
 		group.POST("/validation_codes", controller.CreateValidationCode)
+		group.POST("/session", controller.CreateSession)
 	}
 	return r
 }
