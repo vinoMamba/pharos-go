@@ -10,6 +10,7 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file" // required for file:// protocol
 	"github.com/spf13/viper"
+	"github.com/vinoMamba/pharos-go/config/queries"
 )
 
 var DB *sql.DB
@@ -51,6 +52,22 @@ func MigrateDown() {
 		log.Fatalln(err)
 	}
 	err = m.Steps(-1)
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
+
+func NewQuery() *queries.Queries {
+	return queries.New(DB)
+}
+
+func Connect() {
+	var err error
+	DB, err = sql.Open("postgres", getDatabaseUrl())
+	if err != nil {
+		log.Fatalln(err)
+	}
+	err = DB.Ping()
 	if err != nil {
 		log.Fatalln(err)
 	}

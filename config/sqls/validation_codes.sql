@@ -6,3 +6,7 @@ INSERT INTO validation_codes(
 )
 
 RETURNING *;
+
+-- name: CountValidationCodes :one
+SELECT count(*) FROM validation_codes;
+
