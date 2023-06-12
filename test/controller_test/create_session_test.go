@@ -30,6 +30,18 @@ func TestCreateSession(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	var u queries.User
+	u, err := q.FindUserByEmail(c, email)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if u.ID == 0 {
+		u, err = q.CreateUser(c, email)
+		if err != nil {
+			t.Fatal(err)
+		}
+	}
+
 	w := httptest.NewRecorder()
 
 	body := gin.H{
@@ -50,7 +62,8 @@ func TestCreateSession(t *testing.T) {
 	r.ServeHTTP(w, req)
 
 	var responseBody struct {
-		jwt string
+		JWT    string `json:"jwt"`
+		UserId int32  `json:"userId"`
 	}
 
 	if err := json.Unmarshal(w.Body.Bytes(), &responseBody); err != nil {
@@ -58,4 +71,5 @@ func TestCreateSession(t *testing.T) {
 	}
 
 	assert.Equal(t, http.StatusOK, w.Code)
+	assert.Equal(t, u.ID, responseBody.UserId)
 }
