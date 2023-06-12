@@ -15,6 +15,6 @@ SELECT count(*) FROM validation_codes;
 SELECT * FROM validation_codes 
 WHERE email = $1 
 AND code = $2 
-AND used_at IS NULL 
+AND use_at IS NULL 
 ORDER BY created_at DESC 
 LIMIT 1;

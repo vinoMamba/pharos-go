@@ -62,6 +62,9 @@ func NewQuery() *queries.Queries {
 }
 
 func Connect() {
+	if DB != nil {
+		return
+	}
 	var err error
 	DB, err = sql.Open("postgres", getDatabaseUrl())
 	if err != nil {
