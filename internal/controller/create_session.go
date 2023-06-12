@@ -1,11 +1,13 @@
 package controller
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/vinoMamba/pharos-go/config/queries"
 	"github.com/vinoMamba/pharos-go/internal/database"
+	"github.com/vinoMamba/pharos-go/internal/jwt_helper"
 )
 
 type CreateSessionParams struct {
@@ -33,6 +35,14 @@ func CreateSession(c *gin.Context) {
 		return
 	}
 
-	jwt := "jwt"
+	jwt, err := jwt_helper.GenerateJWT(1)
+	log.Println("--------")
+	log.Println(jwt)
+	log.Println("--------")
+	if err != nil {
+		c.String(http.StatusInternalServerError, "请稍后再试")
+		log.Println(err)
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{"jwt": jwt})
 }
