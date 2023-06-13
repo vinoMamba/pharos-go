@@ -32,10 +32,7 @@ func TestCreateSession(t *testing.T) {
 
 	var u queries.User
 	u, err := q.FindUserByEmail(c, email)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if u.ID == 0 {
+	if err != nil || u.ID == 0 {
 		u, err = q.CreateUser(c, email)
 		if err != nil {
 			t.Fatal(err)
