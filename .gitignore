@@ -1,3 +1,4 @@
 pharos
 .env
 coverage.*
+.DS_Store
