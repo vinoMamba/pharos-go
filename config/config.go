@@ -9,7 +9,7 @@ import (
 func LoadAppConfig() {
 	viper.SetConfigName(".env")
 	viper.SetConfigType("env")
-	viper.AddConfigPath("$HOME/.pharos-go")
+	viper.AddConfigPath("/root/.config/pharos")
 	err := viper.ReadInConfig()
 	if err != nil {
 		log.Fatalln(err)
