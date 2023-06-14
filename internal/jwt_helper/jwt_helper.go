@@ -5,9 +5,9 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"os"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/spf13/viper"
 )
 
 func GenerateJWT(user_id int) (string, error) {
@@ -22,7 +22,14 @@ func GenerateJWT(user_id int) (string, error) {
 }
 
 func getHMACKey() ([]byte, error) {
-	keyPath := viper.GetString("SECRET_PATH")
+
+	homePath, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatalln(err)
+		return nil, err
+	}
+	keyPath := homePath + "/.pharos"
+
 	bytes, err := ioutil.ReadFile(keyPath + "/hmac.key")
 	if err != nil {
 		log.Fatal(err)
