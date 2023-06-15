@@ -75,3 +75,9 @@ func Connect() {
 		log.Fatalln(err)
 	}
 }
+
+func Close() {
+	if DB != nil {
+		DB.Close()
+	}
+}

@@ -1,4 +1,4 @@
-package controller_test
+package controller
 
 import (
 	"context"
@@ -7,13 +7,26 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
+	"github.com/vinoMamba/pharos-go/config"
 	"github.com/vinoMamba/pharos-go/internal/database"
-	"github.com/vinoMamba/pharos-go/internal/router"
 )
 
 func TestCreateValidationCode(t *testing.T) {
-	r := router.New()
+	config.LoadAppConfig()
+	r := gin.New()
+	r.Use(
+		gin.Recovery(),
+		gin.Logger(),
+	)
+	database.Connect()
+	group := r.Group("/api")
+	{
+		vc := ValidationCodeController{}
+		vc.Register(group)
+	}
+
 	c := context.Background()
 	q := database.NewQuery()
 	count1, _ := q.CountValidationCodes(c)

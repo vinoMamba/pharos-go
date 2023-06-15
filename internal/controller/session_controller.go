@@ -10,14 +10,18 @@ import (
 	"github.com/vinoMamba/pharos-go/internal/jwt_helper"
 )
 
-type CreateSessionParams struct {
-	Email string `json:"email" binding:"required"`
-	Code  string `json:"code" binding:"required"`
+type SessionController struct{}
+
+func (ctrl *SessionController) Register(c *gin.RouterGroup) {
+	v1 := c.Group("/v1")
+	v1.POST("/session", ctrl.Create)
 }
 
-func CreateSession(c *gin.Context) {
-
-	var body CreateSessionParams
+func (ctrl *SessionController) Create(c *gin.Context) {
+	var body struct {
+		Email string `json:"email" binding:"required"`
+		Code  string `json:"code" binding:"required"`
+	}
 
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "参数错误"})
@@ -60,4 +64,20 @@ func CreateSession(c *gin.Context) {
 		"jwt":    jwt,
 		"userId": u.ID,
 	})
+}
+
+func (ctrl *SessionController) Destory(c *gin.Context) {
+	panic("not implemented") //TODO: Implement
+}
+
+func (ctrl *SessionController) Update(c *gin.Context) {
+	panic("not implemented") //TODO: Implement
+}
+
+func (ctrl *SessionController) Get(c *gin.Context) {
+	panic("not implemented") //TODO: Implement
+}
+
+func (ctrl *SessionController) GetPaged(c *gin.Context) {
+	panic("not implemented") //TODO: Implement
 }

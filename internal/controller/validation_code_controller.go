@@ -8,12 +8,17 @@ import (
 	"github.com/vinoMamba/pharos-go/internal/helper"
 )
 
-type CreateValidationCodeParams struct {
-	Email string `json:"email" binding:"required,email"`
+type ValidationCodeController struct{}
+
+func (ctrl *ValidationCodeController) Register(r *gin.RouterGroup) {
+	v1 := r.Group("/v1")
+	v1.POST("/validation_codes", ctrl.Create)
 }
 
-func CreateValidationCode(c *gin.Context) {
-	var body CreateValidationCodeParams
+func (ctrl *ValidationCodeController) Create(c *gin.Context) {
+	var body struct {
+		Email string `json:"email" binding:"required,email"`
+	}
 
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
@@ -37,4 +42,20 @@ func CreateValidationCode(c *gin.Context) {
 		return
 	}
 	c.JSON(200, gin.H{"message": "发送验证码成功"})
+}
+
+func (ctrl *ValidationCodeController) Destory(c *gin.Context) {
+	panic("not implemented") //TODO: Implement
+}
+
+func (ctrl *ValidationCodeController) Update(c *gin.Context) {
+	panic("not implemented") //TODO: Implement
+}
+
+func (ctrl *ValidationCodeController) Get(c *gin.Context) {
+	panic("not implemented") //TODO: Implement
+}
+
+func (ctrl *ValidationCodeController) GetPaged(c *gin.Context) {
+	panic("not implemented") //TODO: Implement
 }

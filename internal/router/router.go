@@ -15,11 +15,12 @@ func New() *gin.Engine {
 		gin.Logger(),
 	)
 	database.Connect()
-	group := r.Group("/api/v1")
+	group := r.Group("/api")
 	{
-		group.POST("/login/dingtalk", controller.Login)
-		group.POST("/validation_codes", controller.CreateValidationCode)
-		group.POST("/session", controller.CreateSession)
+		vc := controller.ValidationCodeController{}
+		vc.Register(group)
+		sc := controller.SessionController{}
+		sc.Register(group)
 	}
 	return r
 }

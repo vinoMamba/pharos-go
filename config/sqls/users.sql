@@ -23,3 +23,6 @@ RETURNING *;
 -- name: DeleteUser :exec
 DELETE FROM users
 WHERE id = $1;
+
+-- name: DeleteAllUsers :exec
+DELETE FROM users;
