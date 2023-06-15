@@ -7,6 +7,13 @@ import (
 	"github.com/vinoMamba/pharos-go/internal/database"
 )
 
+func loadControllers() []controller.Controller {
+	return []controller.Controller{
+		&controller.SessionController{},
+		&controller.ValidationCodeController{},
+	}
+}
+
 func New() *gin.Engine {
 	config.LoadAppConfig()
 	r := gin.New()
@@ -17,10 +24,9 @@ func New() *gin.Engine {
 	database.Connect()
 	group := r.Group("/api")
 	{
-		vc := controller.ValidationCodeController{}
-		vc.Register(group)
-		sc := controller.SessionController{}
-		sc.Register(group)
+		for _, c := range loadControllers() {
+			c.Register(group)
+		}
 	}
 	return r
 }
