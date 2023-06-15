@@ -14,6 +14,9 @@ func init() {
 		Use:   "cover",
 		Short: "create a test coverage report",
 		Run: func(cmd *cobra.Command, args []string) {
+			if err := exec.Command("MailHog").Start(); err != nil {
+				log.Fatalln(err)
+			}
 			os.Mkdir("coverage", 0755)
 			if err := exec.Command("go", "test", "-coverprofile=coverage/coverage.out", "./...").Run(); err != nil {
 				log.Fatalln(err)
