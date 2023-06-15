@@ -21,6 +21,17 @@ func GenerateJWT(user_id int) (string, error) {
 	return token.SignedString(key)
 }
 
+func ParseJWT(tokenString string) (*jwt.Token, error) {
+	key, err := getHMACKey()
+	if err != nil {
+		log.Fatal(err)
+	}
+	t, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		return key, nil
+	})
+	return t, err
+}
+
 func getHMACKey() ([]byte, error) {
 
 	homePath, err := os.UserHomeDir()
