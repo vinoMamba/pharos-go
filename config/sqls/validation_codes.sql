@@ -18,3 +18,6 @@ AND code = $2
 AND use_at IS NULL 
 ORDER BY created_at DESC 
 LIMIT 1;
+
+-- name: DeleteAllValidationCodes :exec
+DELETE FROM validation_codes;

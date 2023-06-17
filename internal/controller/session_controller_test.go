@@ -10,25 +10,17 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
-	"github.com/vinoMamba/pharos-go/config"
 	"github.com/vinoMamba/pharos-go/config/queries"
 	"github.com/vinoMamba/pharos-go/internal/database"
 	"github.com/vinoMamba/pharos-go/internal/helper"
 )
 
 func TestCreateSession(t *testing.T) {
-	config.LoadAppConfig()
-	r := gin.New()
-	r.Use(
-		gin.Recovery(),
-		gin.Logger(),
-	)
-	database.Connect()
-	group := r.Group("/api")
-	{
-		sc := SessionController{}
-		sc.Register(group)
-	}
+	teardownTest := setupTestCase(t)
+	defer teardownTest(t)
+
+	sc := SessionController{}
+	sc.Register(r.Group("/api"))
 
 	email := "vinoTest@qq.com"
 	code := helper.GernerateDigits(6)

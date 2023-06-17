@@ -49,6 +49,15 @@ func (q *Queries) CreateValidaitonCode(ctx context.Context, arg CreateValidaiton
 	return i, err
 }
 
+const deleteAllValidationCodes = `-- name: DeleteAllValidationCodes :exec
+DELETE FROM validation_codes
+`
+
+func (q *Queries) DeleteAllValidationCodes(ctx context.Context) error {
+	_, err := q.db.ExecContext(ctx, deleteAllValidationCodes)
+	return err
+}
+
 const findValidationCode = `-- name: FindValidationCode :one
 SELECT id, code, email, use_at, created_at, updated_at FROM validation_codes 
 WHERE email = $1 

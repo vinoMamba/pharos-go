@@ -15,7 +15,15 @@ func (ctrl *MeController) Register(rg *gin.RouterGroup) {
 
 func (ctrl *MeController) Get(c *gin.Context) {
 	auth := c.GetHeader("Authorization")
+	if len(auth) < 8 {
+		c.JSON(401, gin.H{"error": "Invalid token"})
+		return
+	}
 	jwtStr := auth[7:]
+	if jwtStr == "" {
+		c.JSON(401, gin.H{"error": "Invalid token"})
+		return
+	}
 	t, err := jwt_helper.ParseJWT(jwtStr)
 	if err != nil {
 		c.JSON(401, gin.H{"error": "Invalid token"})
